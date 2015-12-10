@@ -400,6 +400,8 @@ void DBProcessor::process()
     cout << "Rule Evaluation" << endl;
 
 
+
+
     // for each SCC set
     // for each component
     // evalRule("RULE", component);
@@ -410,15 +412,18 @@ void DBProcessor::process()
     {
       theDB.joined = false;
       int passCounter = 0;
-      while(!theDB.joined)
-      {
+      int count = 0;
+      while(count !=5)
+      { /*!theDB.joined*/
         passCounter++;
+        count++;
         for(int comp : theGraph.SCC[i])
         {
           string ruleName = ruleList[comp].getValue();
           unsigned long origSize = theDB.theDatabase.find(ruleName)->second.getTupleSet().size();
-
-          //Relation evaluated = evalRule(comp);
+          //cout << "Component Value: " << comp << endl;
+          //cout << ruleList.size() << endl;
+          Relation evaluated = evalRule(3);
           unsigned long secondSize = theDB.theDatabase.find(ruleName)->second.getTupleSet().size();
 
           if(origSize != secondSize)
@@ -430,41 +435,41 @@ void DBProcessor::process()
       theGraph.SCCPasses.push_back(passCounter);
     }
 
-
+    cout << theGraph.printPasses() << endl;
 
     /** LAB 4 RULE OPERATIONS **/
     // Always have to access rulePredicateList at index > 0, then add joined preds to the
     // For each Rule in the ruleList.
-    theDB.joined = false;
-    while(!theDB.joined)
-    {
+    // theDB.joined = false;
+    // while(!theDB.joined)
+    // {
+    //
+    //     theDB.joined = true;
+    //     ruleCounter++;
+    //     for (int i = 0; i < ruleList.size(); i++)
+    //     {
+    //         string ruleName = ruleList[i].getValue();
+    //         unsigned long origSize = theDB.theDatabase.find(ruleName)->second.getTupleSet().size();
+    //
+    //         //Relation evaluated = evalRule(i);
+    //         unsigned long secondSize = theDB.theDatabase.find(ruleName)->second.getTupleSet().size();
+    //
+    //         if(origSize != secondSize)
+    //         {
+    //             theDB.joined = false;
+    //         }
+    //     }
+    // }
 
-        theDB.joined = true;
-        ruleCounter++;
-        for (int i = 0; i < ruleList.size(); i++)
-        {
-            string ruleName = ruleList[i].getValue();
-            unsigned long origSize = theDB.theDatabase.find(ruleName)->second.getTupleSet().size();
 
-            //Relation evaluated = evalRule(i);
-            unsigned long secondSize = theDB.theDatabase.find(ruleName)->second.getTupleSet().size();
-
-            if(origSize != secondSize)
-            {
-                theDB.joined = false;
-            }
-        }
-    }
-
-
-    cout << "Schemes populated after " << ruleCounter << " passes through the Rules." << endl;
+    //cout << "Schemes populated after " << ruleCounter << " passes through the Rules." << endl;
    //cout << theDB.toString() << endl;
-
+    cout << "Query Evaluation " << endl;
     /** LAB 3 QUERY OPERATIONS **/
     for (int i = 0; i < queryList.size(); i++)
     {
 
-        //evalQuery(i, "QUERY", 0);
+        evalQuery(i, "QUERY", 0);
 
     }
 

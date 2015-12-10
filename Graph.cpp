@@ -237,17 +237,22 @@ string Graph::printPasses()
 {
   stringstream ss;
 
-  //
-  for(int pass : SCCPasses)
+  // cout << "Passes List Size: " << SCCPasses.size() << endl;
+  // cout << "SCC List Size: " << SCC.size() << endl;
+
+  // will go through vector of passes,
+  //  which is the same as the strongly connected components
+  for(int i = 0; i < SCCPasses.size(); i++)
   {
-    if(!theSet.empty())
+    if(!SCC[i].empty())
     {
-      for(int comp : theSet)
+      ss << SCCPasses[i] << " passes: ";
+      for(int comp : SCC[i])
       {
-        ss << comp << " passes: " << "R" << comp;
-        if(comp == theSet.size() -1)
+        ss << "R" << comp;
+        if(comp != SCC[i].size() -1)
         {
-          ss << ","
+          ss << ",";
         }
       }
       ss << endl;

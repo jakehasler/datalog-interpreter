@@ -1,20 +1,28 @@
-
 Schemes:
-A(X,Y)
-B(X,Y)
-E(X,Y)
+A(a)
+B(b)
+DeaUoo(a,b,c,d,e)
+DeaVoo(a,b,c,d,e)
+DeaWoo(a,b,c,d,e)
 
 Facts:
-A('1','2').
-B('9','10').
-E('11','12').
+A('a').
+B('b').
+DeaWoo('a','a','a','a','b').
+DeaWoo('a','b','a','a','b').
 
 Rules:
-A(X,Y) :- B(X,Y), C(X,Y).
-B(X,Y) :- A(X,Y), D(X,Y).
-B(X,Y) :- B(Y,X).
-E(X,Y) :- F(X,Y), G(X,Y).
-E(X,Y) :- E(X,Y), F(X,Y).
+DeaWoo(A,B,C,D,E):-A(A),A(B),A(C),A(D),A(E).
+DeaWoo(A,B,C,D,E):-A(A),A(B),B(C),A(D),A(E).
+DeaWoo(A,B,C,D,E):-A(E),B(D),A(C),B(B),A(A).
+DeaUoo(E,D,C,B,A):-DeaWoo(A,B,C,D,E),A(B).
+DeaVoo(E,D,C,B,A):-DeaUoo(A,B,C,D,E),B(D).
 
 Queries:
-A('1','2')?
+DeaUoo(A,B,C,D,E)?
+DeaUoo(A,B,'a',D,E)?
+DeaVoo(A,B,'a',D,E)?
+DeaUoo(A,B,'b',D,E)?
+DeaWoo(A,B,'a',D,Applestrudle)?
+DeaWoo(A,B,'a',D,E)?
+DeaWoo('a','a','a','a','b')?

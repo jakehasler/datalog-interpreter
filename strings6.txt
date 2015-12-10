@@ -1,22 +1,3 @@
-Steps:
-1. Dependency Graph
-2. Reverse
-3. DFS on Reverse
-
-
-
-check if visted
-
-if hasn't, mark as visited
-
-call same function on each of its children
-
-
-
-PO   Reverse
-
-
-
 Schemes:
 A(X,Y)
 B(X,Y)
