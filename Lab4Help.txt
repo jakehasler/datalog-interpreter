@@ -1,0 +1,264 @@
+Help Session: Lab 4 - Natural Join and Rule Interpretation
+
+Centered on the Rules.
+No New classes, just insert after facts for loop
+
+Look at Rules, Evaluate them
+
+
+Rules:
+HT(H,T) :- AB(H,Y),CD(T,Y)
+CD(C,D) :- HT(C,D)
+SF(S,F) :- AB(S,X),CD(X,Y),HT(Y,F)
+
+
+Rule - Join Predicates on the right side
+
+Rule[0]
+A B |x| C D
+hy       ty
+
+Rule[1]
+Project from HT to CD -> insert tuples into the set. Don't have to worry about duplicate tuples
+
+Rule[2]
+Join first two predicates, and then the following with the joined first one
+Get whole new relation with schema.size() 4
+Project S and F
+
+
+- Rename - Take first, and everythin in second that's not a duplicate. ->
+- Create new Schema - Temp Relation
+- Populate with Tuples
+    • Find where indices are common
+    • Double For Loop
+- Project -
+
+
+If size is 1 -> Project
+If size is 2 -> Normal join
+If size is 3 -> Update relation with each for loop iteration
+    temp = join first 2
+    for(rest in body)
+    r2 = body[i]
+    temp = join temp and r2;
+
+
+Have to keep going through rules so that you have most updated items
+count number of times gone through the rules
+Have while loop - while(have added tuples) - outside of for loop
+
+Output: Schmes populated after X passes through the Rules.
+note - will always have at least one pass.
+
+Evaluate each query in the rule body, add to vector, and then join each one from the vector.
+
+
+for Params in head, grab one at a time -> find out which columns want to project
+    for params in relation
+        if head[i] == relation[k]
+        create tuple
+
+
+Other notes - test cases with 5 predicates
+store indices in the order you want to project them into a vector.
+
+
+
+to check:
+strings in rules
+
+If no facts to begin with that deal with that.
+Be ready to add new facts into it.
+schemes exist, but there's no fact to match the scheme until go through the rules.
+- emtpyDB.addRelation(ruleResult);
+
+r(b,a):-r(a,b) - flip flopping the columns
+- add reciprocals to relation
+
+r(b,a) :- something(a,b,c,d)
+
+
+
+fill tuple
+
+tc -> ct
+
+go through second relation, grab first column, then second column, add tuple
+
+
+
+
+Seg fault in Temp Relation Print Out -> Join with More than two
+
+All Natural Join
+  Went through one too many times. 
+ Bottom two rules
+
+
+
+Schemes:
+A(a,b)
+rA(a,b)
+Reflexive(a,b)
+
+colB(b)
+Symmetric(a,b)
+Transitive(a,b)
+SymTran(a,b)
+
+Facts:
+A('1','2').
+A('2','3').
+A('3','4').
+A('4','5').
+A('5','6').
+A('6','7').
+A('7','8').
+A('8','9').
+A('9','10').
+
+Rules:
+Symmetric(X,Y) :- A(X,Y).
+Symmetric(X,Y) :- Symmetric(Y,X).
+rA(a,b) :- A(b,a).
+Reflexive(X,Y) :- A(X,Z),rA(Z,Y).
+Transitive(X,Y) :- A(X,Y).
+Transitive(X,Z) :- Transitive(X,Y),Transitive(Y,Z).
+SymTran(X,Y) :- SymTran(Y,X).
+SymTran(X,Z) :- SymTran(X,Y),SymTran(Y,Z).
+SymTran(X,Y) :- A(Y,X).
+
+Queries:
+Symmetric(Q,R)?
+Reflexive(Q,R)?
+Transitive('1',P)?
+A('1','2')?
+Symmetric('2','1')?
+SymTran(X,Y)?
+
+
+
+
+// Unpassable Test Case
+
+Schemes:
+F(A,B)
+G(A,B)
+H(A,B)
+
+Facts:
+F('1','2').
+G('2','3').
+H('3','2').
+
+Rules:
+F(a,b):-G(b,a),H(a,b).
+F(a,b):-F(b,a).
+G(a,b):-H(b,a),F(a,b).
+H(a,b):-F(b,a),G(a,b).
+
+Queries:
+F(a,b)?
+G(a,b)?
+H(a,b)?
+F('2',b)?
+G(a,'2')?
+
+
+vector, indices can be the head predicate, and the value can be index
+
+
+
+Trivial: see if it depends on itself
+
+
+Schemes:
+A(a)
+B(b)
+DeaUoo(a,b,c,d,e)
+DeaVoo(a,b,c,d,e)
+DeaWoo(a,b,c,d,e)
+
+Facts:
+A('a').
+B('b').
+DeaWoo('a','a','a','a','b').
+DeaWoo('a','b','a','a','b').
+
+Rules:
+DeaWoo(A,B,C,D,E):-A(A),A(B),A(C),A(D),A(E).
+DeaWoo(A,B,C,D,E):-A(A),A(B),B(C),A(D),A(E).
+DeaWoo(A,B,C,D,E):-A(E),B(D),A(C),B(B),A(A).
+DeaUoo(E,D,C,B,A):-DeaWoo(A,B,C,D,E),A(B).
+DeaVoo(E,D,C,B,A):-DeaUoo(A,B,C,D,E),B(D).
+
+Queries:
+DeaUoo(A,B,C,D,E)?
+DeaUoo(A,B,'a',D,E)?
+DeaVoo(A,B,'a',D,E)?
+DeaUoo(A,B,'b',D,E)?
+DeaWoo(A,B,'a',D,Applestrudle)?
+DeaWoo(A,B,'a',D,E)?
+DeaWoo('a','a','a','a','b')?
+
+
+
+
+void Graph::doForwardDFS() {
+    while (postOrderStack.size()) {
+
+        fDFS(postOrderStack.top());
+
+        postOrderStack.pop();
+        if (forwardStack.size()) {
+            set<int> newGroup;
+            while (forwardStack.size()) {
+                newGroup.insert(forwardStack.top());
+                forwardStack.pop();
+            }
+            ruleGroups.push_back(newGroup);
+        }
+    }
+}
+
+void Graph::fDFS(int i) {
+if (forwardGraph.at(i).visited) return;
+forwardGraph.at(i).visited = true;
+for (auto j: forwardGraph.at(i).children) {
+fDFS(j);
+}
+forwardStack.push(i);
+}
+
+
+
+
+
+
+
+
+subAccounts: [
+
+
+]
+
+
+obj = {
+id: 123,
+pages: [ {name: yes, visitors: 12, conversions: 2, conversionRate: 1.2} ]
+}
+
+subAccounts.push(obj);
+
+
+set pages for sub accounts
+
+    get page data for each page ID
+        construct object
+            name:
+            visitors:
+            conversions:
+            conversionRate:
+            url:
+            id:

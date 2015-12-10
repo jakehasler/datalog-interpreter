@@ -1,0 +1,196 @@
+
+
+test - Name of Relation; Can be different from Schema
+s k s - Schema; order matters
+1 2 1 - Tuple; entire row, order matters - vector for row, set for vectors.
+3 2 1
+4 2 1
+3 2 2
+
+
+Relation Class
+string name;
+vector<string> schema; - order matters
+set<vector<string>> tuples;
+
+
+Database Class
+// Will Hold all relations
+Use a Map; key, value (name, relation)
+
+
+
+store all relations -
+go through facts - addSingleTuple()
+
+
+1) Create Classes
+2) Read and Create Relations
+3) Get Print Function Working
+    • For every vector in my set - print out on new line
+4)  Read Queries
+    * Functions of relation class
+    • Select (@param values it needs to take in)
+        - Grabs whole Row/Tuple
+        - Make New Relation with updated Data
+        - Add to Results Map (in Database)
+        - Take in a list of values,
+        - This value, at this position, needs to be equal to this
+    • Project
+        - deals with columns - column want to keep
+        - need the x variables - gets rid of other columns that aren't in the variables
+        - Create a new Tuple Vector, re-add to new set, override
+        - Double 'X' - values need to be same here - if repeats, can drop other column
+        - Strings where i'm going to select in these positions
+        - ID's where I'm going to project are in these positions
+
+    • Rename
+        - Rename column of variable to 'X'
+        - Change that in Schema
+
+
+Need to see if first param is an ID or a String
+
+copy of relation
+
+loop through columns
+            * will probalby have to pass in other items as well.
+if string, select(on &relation)
+    string function
+
+else ID
+    if id not in list
+    X or A, added to List - projection
+    esle in list, call ID - select
+    if see another, and not in list, then add to list
+
+
+
+Query
+index refers to columns
+ID means you have to project & add to list
+String means you have to select.
+
+
+resulting relation
+x
+c
+b
+
+output
+Yes(2)
+x='c'
+x='b'
+
+
+Latest Notes
+Go through whole query, for select get two vectors of strings and their positions.
+pass both into the select, then select values at those positions
+for all positions - check if values are equal
+loop conition as position values.
+
+select strings, and dup ids, then project.
+
+for ID's
+Select if IDs are the same value, then project
+project if different
+
+
+
+Schemes:
+SK(A,B,C)
+Facts:
+SK('a','c','d').
+SK('b','c','b').
+SK('b','b','a').
+SK('b','c','c').
+Rules:
+DoNothing(Z) :- Stuff(Z).
+Queries:
+SK(A,'c','d')?
+SK('b','c','b')?
+SK('b',X,A)?
+SK(X,'a',X)?
+SK(A,B,'q')?
+
+Schemes:
+SK(A,B,C)
+Facts:
+SK('a','c','d').
+SK('b','c','b').
+SK('b','b','a').
+SK('b','c','c').
+Rules:
+DoNothing(Z) :- Stuff(Z,X,'a',C).
+Queries:
+SK(A,'c','d')?
+SK('b','c','b')?
+SK('b',X,A)?
+SK(X,'a',X)?
+SK(X,Q,'d')?
+
+Schemes:
+SK(A,B,C,D)
+Facts:
+SK('a','c','d','a').
+SK('b','c','b','b').
+SK('b','b','a','d').
+SK('b','c','c','d').
+Rules:
+DoNothing(Z) :- Stuff(Z,X,'a',C).
+Queries:
+SK(A,'c','d',A)?
+SK('b','c','b','b')?
+SK('b',X,A,A)?
+SK(X,'a',X,'q')?
+SK(X,Q,'d','a')?
+
+Schemes:
+SK(A,B,C,D)
+Facts:
+SK('1','1','1','1').
+SK('1','2','1','1').
+SK('2','2','1','1').
+SK('2','2','2','1').
+Rules:
+DoNothing(Z) :- Stuff(Z).
+Queries:
+SK(t,t,t,t)?
+SK('2','2',t,t)?
+SK(t,'2',t,t)?
+
+
+Schemes:
+name(A,B,C,D)
+Facts:
+name('1','1','1','1').
+name('2','1','1','1').
+name('2','2','1','1').
+name('2','2','2','1').
+name('2','2','3','3').
+Rules:
+DoNothing(Z) :- Stuff(Z).
+Queries:
+name(t,t,t,t)?
+name(t,t,t,'1')?
+name('2',t,s,'3')?
+name(t,t,q,r)?
+name(p,p,'1',q)?
+name('2','2',t,t)?
+name(t,'2',t,t)?
+
+
+Notes for Passoff.
+Extra tuples fo (ID, string)
+empty string instead of no tuple string for (ID, string)
+Lots of Ids and strings, print NO, and tuples, should be just no
+all strings, yes910 instead of no
+If no, then printing after, when I shouldn't print anything if no.
+query with 4 ids, totally incorrect.
+multiple ids and strings'
+
+
+
+2nd Passoff Notes
+Not printing out all of the items
+seg fault in the vector - check for vec out of bounds error

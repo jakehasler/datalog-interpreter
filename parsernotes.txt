@@ -1,0 +1,122 @@
+CLASSES?
+datalogProgram
+rule
+predicate
+parameter
+expressions
+
+OTHER REQUIREMENTS
+• need list objects
+• list of schemes, facts, rules or queries.
+• Each class with objects must have a toString() function.
+- output must be formed by ^these toString() functions.
+
+
+List of Domain Values
+• string constant within a fact.
+• set of all 'unique' (no duplicates) string constants is the DOMAIN.
+• Store Domain as sorted list.
+
+
+
+• What do I need to keep in mind for the next project? Things with formatting to make it easier?
+
+
+• Do I need to make a class for each non-terminal in the grammar?
+
+
+
+• Syntax for throwing exceptions? Right way to do it?
+
+try
+{
+
+}
+catch
+{
+cout << "Failure!";
+}
+
+•
+
+match on all Terminals - tell if its correct
+
+vector<Predicate> Schemes
+vector<Predicate> Facts
+vector<Predicate> Queries
+vector<Rules> Rules
+
+Within Parser:
+Predicate pred()
+{
+match("ID"); // is token of type ID - bool, token at currentIndex - returns true, or throws error
+match("LEFT_PAREN")
+param
+paramList
+
+return Predicate;
+// to be able to add to proper list.
+}
+
+
+param()
+{
+string() || id || expression
+// look at token at index and getType
+// if either, then match
+// if not, check expression
+// depends where you are, it may have to be either
+}
+
+
+// Have expression inherit from parameter class - have exp be a parameter
+
+
+
+
+
+every time hit a usable token, increment count
+
+Make match function that throws error - Takes in two tokens, see's if they match.
+
+if error, catches underneath. cout << failure
+try {} catch
+
+
+Use list for domain values - store everything, then sort and remove dups
+
+Expressions - Store everthings as its respective object
+
+Schemes and HeadPredicate
+
+
+schemes();
+colon();
+scheme();
+schemeList();
+facts();
+colon();
+factList();
+rules();
+colon();
+ruleList();
+queries();
+colon();
+query();
+queryList();
+
+
+do Query first, comment out rule checker
+
+solving expression things with queries, helps out rules a little bit
+
+Rule Class
+hold headPredicate
+list of predicates
+
+Predicate
+    store token value
+
+Keep schemes separate from facts , then queries
+
+
