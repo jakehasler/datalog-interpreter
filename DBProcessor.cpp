@@ -385,7 +385,7 @@ void DBProcessor::process()
 
     /** LAB 5 GRAPH OPERATIONS **/
     processGraph();
-
+    cout << endl;
     cout << "Rule Evaluation" << endl;
     // outfile << "Rule Evaluation" << endl;
 
@@ -405,7 +405,6 @@ void DBProcessor::process()
       while(!theDB.joined)
       { /*!theDB.joined*/
         passCounter++;
-        count++;
         theDB.joined = true;
         for(int comp : theGraph.SCC[i])
         {
@@ -416,6 +415,13 @@ void DBProcessor::process()
           if(origSize != secondSize)
           {
               theDB.joined = false;
+          }
+          // If trivial, then break out of loop.
+          if(theGraph.isTrivial(comp))
+          {
+            // cout << ruleName << "is trivial" << endl;
+            passCounter = 1;
+            theDB.joined = true;
           }
         }
       }

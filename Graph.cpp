@@ -181,16 +181,16 @@ void Graph::DFS(string whichGraph, int whichNode)
 
 bool Graph::isTrivial(int index)
 {
+  // cout << "Checking Triviality" << endl;
   bool trivial = true;
   // if one of its children is itself.
-  for(int i = 0; i < nodeGraph[index].getChildren().size(); i++)
+  for(int kid : nodeGraph[index].getChildren())
   {
-    if(nodeGraph[index].getName() == nodeGraph[i].getName())
+    if(kid == index)
     {
       trivial = false;
     }
   }
-
 
   return trivial;
 }
@@ -240,10 +240,13 @@ string Graph::printPasses()
     if(!SCC[i].empty())
     {
       ss << SCCPasses[i] << " passes: ";
+      int k = 0;
       for(int comp : SCC[i])
       {
+
         ss << "R" << comp;
-        if(comp < SCC[i].size() - 1) ss << ",";
+        if(k < SCC[i].size() - 1) ss << ",";
+        k++;
       }
       ss << endl;
     }
