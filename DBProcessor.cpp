@@ -292,7 +292,7 @@ void DBProcessor::processGraph()
         theGraph.DFS("reverse", i);
     }
 
-
+    cout << "Reverse Graph" << endl;
     // Print nodes of reverse for data viewing purposes.
     for(Node temp : theGraph.reverseNodeGraph)
     {
@@ -303,6 +303,11 @@ void DBProcessor::processGraph()
 
     // will automatically be performed on postNums
     theGraph.doDFS("forward");
+    cout << "Forward Graph" << endl;
+    for(Node temp : theGraph.nodeGraph)
+    {
+        cout << temp.toString() << endl;
+    }
 
     cout << theGraph.printSCC() << endl;
 
@@ -423,7 +428,7 @@ void DBProcessor::process()
           unsigned long origSize = theDB.theDatabase.find(ruleName)->second.getTupleSet().size();
           //cout << "Component Value: " << comp << endl;
           //cout << ruleList.size() << endl;
-          Relation evaluated = evalRule(3);
+          Relation evaluated = evalRule(comp);
           unsigned long secondSize = theDB.theDatabase.find(ruleName)->second.getTupleSet().size();
 
           if(origSize != secondSize)
@@ -469,7 +474,7 @@ void DBProcessor::process()
     for (int i = 0; i < queryList.size(); i++)
     {
 
-        evalQuery(i, "QUERY", 0);
+        //evalQuery(i, "QUERY", 0);
 
     }
 

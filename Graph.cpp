@@ -102,12 +102,14 @@ void Graph::getReverseGraph()
 
 void Graph::doDFS(string which)
 {
-    while(!postOrderNums.empty())
+    while(postOrderNums.size())
     {
         // DFS on just top value from stack
+        cout << "PON: " << postOrderNums.top() << endl;
         DFS("forward", postOrderNums.top());
         postOrderNums.pop();
-        if(!forwardStack.empty())
+        cout << "Forward Stack size(): " << forwardStack.size() << endl;
+        if(forwardStack.size())
         {
             set<int> singleSCC;
             while(forwardStack.size())
@@ -124,6 +126,7 @@ void Graph::DFS(string whichGraph, int whichNode)
 {
     if(whichGraph == "reverse")
     {
+        if(reverseNodeGraph[whichNode].visited) return;
         // Go to child, mark as visited, give PON, return.
         reverseNodeGraph[whichNode].markVisited();
 
@@ -162,39 +165,19 @@ void Graph::DFS(string whichGraph, int whichNode)
     {
         /** Performing on forward graph in order of Post Order Nums. **/
 
-        // iterates through all items of the stack
-//        for(int child : nodeGraph[whichNode].getChildren())
-//        {
-//            set<int> singleSCC;
-//            // Base Case
-//            if(!nodeGraph[child].visited)
-//            {
-//
-//                nodeGraph[child].markVisited();
-//                singleSCC.insert(child);
-//                // DFS on adjacent node
-//                DFS("forward", child);
-//            }
-//
-//            if(!nodeGraph[whichNode].visited)
-//            {
-//                nodeGraph[whichNode].markVisited();
-//                singleSCC.insert(whichNode);
-//            }
-//
-//            SCC.push_back(singleSCC);
-//        }
-
-        if(nodeGraph[whichNode].visited) return;
-
-        nodeGraph[whichNode].markVisited();
-
-        for(int child : nodeGraph[whichNode].getChildren())
+        //if(nodeGraph[whichNode].visited) return;
+        if(!nodeGraph[whichNode].visited)
         {
-            DFS("forward", child);
+          nodeGraph[whichNode].markVisited();
+          //cout << "NodeGraph:" << whichNode << " Size of Children" << nodeGraph[whichNode].getChildren().size() << endl;
+          for(int child : nodeGraph[whichNode].getChildren())
+          {
+              DFS("forward", child);
+          }
+          cout << "Pushing " << whichNode << " onto the forwardStack." << endl;
+          forwardStack.push(whichNode);
         }
 
-        forwardStack.push(whichNode);
     }
 
 }
@@ -218,6 +201,8 @@ string Graph::printSCC()
     // For Every set of Components
     for(set<int> theSet : SCC)
     {
+      cout << "Size of SCC's: ";
+      cout << SCC.size() << endl;
         if(!theSet.empty())
         {
             //cout << theSet.size() << endl;
