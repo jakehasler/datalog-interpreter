@@ -222,15 +222,17 @@ Relation Database::join(Relation rel1, Relation rel2)
     // Send schemas to get map of the matches.
     map<string, vector<vector<int>>> matchMap = getMatchMap(sche1, sche2, matching);
 
-
+    // matching = true;
     if(matching == false)
     {
+
         //cout << "CP" << endl;
         tempRel = crossProduct(set1, set2, newSchema);
         //cout << tempRel.toString() << endl;
     }
     else
     {
+
         //cout << "NJ" << endl;
         // Will join both relations
         naturalJoin(tempRel, matchMap, set1, set2, newSchema, uniqueInd);
@@ -295,6 +297,7 @@ void Database::fillTuple(Relation tempRel, Predicate toMatch, int &factsAdded)
 
 void Database::naturalJoin(Relation &tempRel, map<string, vector<vector<int>>> matchMap, set<vector<string>> set1, set<vector<string>> set2, vector<string> newSchema, vector<int> uniqueInd)
 {
+
     // Questions: Account for multiple matching IDs in a Join?
     // setting the schema of the new Relation.
     // Go through each tuple of first set

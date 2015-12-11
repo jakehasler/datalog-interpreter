@@ -11,7 +11,7 @@ f('3','5').
 
 Rules:
 r(E,F):-f(E,F).
-g(C,D):-f(CX),r(X,D).
+g(C,D):-f(C,X),r(X,D).
 
 Queries:
 g('4',B)?
