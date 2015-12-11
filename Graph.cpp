@@ -105,10 +105,8 @@ void Graph::doDFS(string which)
     while(postOrderNums.size())
     {
         // DFS on just top value from stack
-        cout << "PON: " << postOrderNums.top() << endl;
         DFS("forward", postOrderNums.top());
         postOrderNums.pop();
-        cout << "Forward Stack size(): " << forwardStack.size() << endl;
         if(forwardStack.size())
         {
             set<int> singleSCC;
@@ -149,7 +147,7 @@ void Graph::DFS(string whichGraph, int whichNode)
             //cout << "Assigning PON of: " << currentPostNum <<  "to: " << reverseNodeGraph[whichNode].toString() << endl;
             reverseNodeGraph[whichNode].setPON(currentPostNum);
             // Pushes PON to the stack
-            postOrderNums.push(currentPostNum);
+            postOrderNums.push(whichNode);
 
             reverseNodeGraph[whichNode].hasNum = true;
             incrementPON();
@@ -174,12 +172,27 @@ void Graph::DFS(string whichGraph, int whichNode)
           {
               DFS("forward", child);
           }
-          cout << "Pushing " << whichNode << " onto the forwardStack." << endl;
           forwardStack.push(whichNode);
         }
 
     }
 
+}
+
+bool Graph::isTrivial(int index)
+{
+  bool trivial = true;
+  // if one of its children is itself.
+  for(int i = 0; i < nodeGraph[index].getChildren().size(); i++)
+  {
+    if(nodeGraph[index].getName() == nodeGraph[i].getName())
+    {
+      trivial = false;
+    }
+  }
+
+
+  return trivial;
 }
 
 string Graph::printPON()
@@ -201,8 +214,6 @@ string Graph::printSCC()
     // For Every set of Components
     for(set<int> theSet : SCC)
     {
-      cout << "Size of SCC's: ";
-      cout << SCC.size() << endl;
         if(!theSet.empty())
         {
             //cout << theSet.size() << endl;
@@ -222,9 +233,6 @@ string Graph::printPasses()
 {
   stringstream ss;
 
-  // cout << "Passes List Size: " << SCCPasses.size() << endl;
-  // cout << "SCC List Size: " << SCC.size() << endl;
-
   // will go through vector of passes,
   //  which is the same as the strongly connected components
   for(int i = 0; i < SCCPasses.size(); i++)
@@ -235,10 +243,7 @@ string Graph::printPasses()
       for(int comp : SCC[i])
       {
         ss << "R" << comp;
-        if(comp != SCC[i].size() -1)
-        {
-          ss << ",";
-        }
+        if(comp < SCC[i].size() - 1) ss << ",";
       }
       ss << endl;
     }

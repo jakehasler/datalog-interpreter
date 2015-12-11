@@ -40,34 +40,36 @@ class DBProcessor
 public:
     DBProcessor(Parser obj);
     ~DBProcessor();
-    
+
     void process();
     Relation createRelation(int index);
     Relation evalQuery(int index, string evalType, int predIndex);
     Relation evalRule(int index);
     void processGraph();
 
-    
+
     string queryResult(Relation relCopy, vector<string> idVec, int index, int vecCounter);
-    
+
     string newResult();
     
+
 private:
     Parser theParser;
     Database theDB;
     Database newDB;
     Graph theGraph;
-    
+
     int ruleCounter;
     //bool ifAdded;
-    
+
     vector<Predicate> schemeList;
     vector<Predicate> factList;
     vector<Rule> ruleList;
     vector<Predicate> queryList;
     set<string> domainList;
-    
-    
+
+
+
     map<string, vector<int>> finalIdMap;
 };
 

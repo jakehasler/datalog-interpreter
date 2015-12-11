@@ -21,6 +21,7 @@ DBProcessor::DBProcessor(Parser obj)
 
     theGraph.setRules(ruleList);
 
+
     ruleCounter = 0;
 }
 
@@ -187,6 +188,8 @@ Relation DBProcessor::evalQuery(int index, string evalType, int predIndex)
     if(evalType == "QUERY")
     {
         cout << queryResult(relCopy, idVec, index, vecCounter);
+        // outfile << queryResult(relCopy, idVec, index, vecCounter);
+
     }
     //cout << relCopy.toString() << endl;
     newDB.addRelation(relCopy.getName(), relCopy);
@@ -282,8 +285,8 @@ void DBProcessor::processGraph()
 
     cout << "Dependency Graph" << endl;
     cout << theGraph.toString("forward");
-    cout << "Reverse Graph" << endl;
-    cout << theGraph.toString("nodeReverse");
+    // outfile << "Dependency Graph" << endl;
+    // outfile << theGraph.toString("forward");
 
 
     // DFS FOREST -> Start at first Node
@@ -291,27 +294,8 @@ void DBProcessor::processGraph()
     {
         theGraph.DFS("reverse", i);
     }
-
-    cout << "Reverse Graph" << endl;
-    // Print nodes of reverse for data viewing purposes.
-    for(Node temp : theGraph.reverseNodeGraph)
-    {
-        cout << temp.toString() << endl;
-    }
-
-    cout << theGraph.printPON() << endl;
-
     // will automatically be performed on postNums
     theGraph.doDFS("forward");
-    cout << "Forward Graph" << endl;
-    for(Node temp : theGraph.nodeGraph)
-    {
-        cout << temp.toString() << endl;
-    }
-
-    cout << theGraph.printSCC() << endl;
-
-
 }
 
 
@@ -403,7 +387,7 @@ void DBProcessor::process()
     processGraph();
 
     cout << "Rule Evaluation" << endl;
-
+    // outfile << "Rule Evaluation" << endl;
 
 
 
@@ -418,19 +402,17 @@ void DBProcessor::process()
       theDB.joined = false;
       int passCounter = 0;
       int count = 0;
-      while(count !=5)
+      while(!theDB.joined)
       { /*!theDB.joined*/
         passCounter++;
         count++;
+        theDB.joined = true;
         for(int comp : theGraph.SCC[i])
         {
           string ruleName = ruleList[comp].getValue();
           unsigned long origSize = theDB.theDatabase.find(ruleName)->second.getTupleSet().size();
-          //cout << "Component Value: " << comp << endl;
-          //cout << ruleList.size() << endl;
           Relation evaluated = evalRule(comp);
           unsigned long secondSize = theDB.theDatabase.find(ruleName)->second.getTupleSet().size();
-
           if(origSize != secondSize)
           {
               theDB.joined = false;
@@ -441,7 +423,7 @@ void DBProcessor::process()
     }
 
     cout << theGraph.printPasses() << endl;
-
+    // outfile << theGraph.printPasses() << endl;
     /** LAB 4 RULE OPERATIONS **/
     // Always have to access rulePredicateList at index > 0, then add joined preds to the
     // For each Rule in the ruleList.
@@ -474,11 +456,11 @@ void DBProcessor::process()
     for (int i = 0; i < queryList.size(); i++)
     {
 
-        //evalQuery(i, "QUERY", 0);
+        evalQuery(i, "QUERY", 0);
 
     }
 
-
+    // outfile.close();
 
     //cout << newDB.toString() << endl;
 

@@ -50,7 +50,7 @@ public:
 
     // if only one child, then
     // check in graph if it has itself
-    bool dependsOnSelf(int index);
+    bool isTrivial(int index);
 
     stack<int> postOrderNums;
     stack<int> forwardStack;
